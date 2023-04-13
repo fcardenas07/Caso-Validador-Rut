@@ -6,8 +6,8 @@ public class ValidadorRut {
         String rut = ingresarTexto();
 
         if (rutNoTieneFormatoValido(rut)) {
-            throw new RuntimeException("Rut con formato no valido");
-//            System.err.print("");
+            //throw new RuntimeException("Rut con formato no valido");
+            System.err.print("Rut con formato no valido");
         }
 
         String digitoVerificadorCalculado = calcularDigitoVerificador(rut);
@@ -76,7 +76,7 @@ public class ValidadorRut {
             int digito = convertirCharAInt(rut.charAt(i));
             multiplicaciones[i] = digito * factorMultiplicacion;
             factorMultiplicacion++;
-            if (factorMultiplicacion == 8) factorMultiplicacion = 0;
+            if (factorMultiplicacion == 8) factorMultiplicacion = 2;
         }
         return multiplicaciones;
     }
@@ -85,7 +85,7 @@ public class ValidadorRut {
         try {
             return Character.getNumericValue(digito);
         } catch (NumberFormatException e) {
-            throw new RuntimeException("El rut contiene caracteres no numericos");
+            throw new RuntimeException("El rut contiene caracteres no validos");
         }
     }
 
