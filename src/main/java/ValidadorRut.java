@@ -83,7 +83,7 @@ public class ValidadorRut {
 
     public static int convertirCharAInt(char digito) {
         try {
-            return Character.getNumericValue(digito);
+            return Integer.parseInt(String.valueOf(digito));
         } catch (NumberFormatException e) {
             throw new RuntimeException("El rut contiene caracteres no validos");
         }
