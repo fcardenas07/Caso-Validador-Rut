@@ -1,5 +1,7 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,6 +23,27 @@ class ValidadorRutTest {
         assertEquals("5", ValidadorRut.calcularDigitoVerificador(rut));
     }
 
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "15.336.785-K",
+            "20080984-K",
+            "19889737K"
+    })
+    void digitoVerificadorK(String rut) {
+        assertEquals("k", ValidadorRut.calcularDigitoVerificador(rut));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "1.941.669-0",
+            "9714602-0",
+            "196396810"
+    })
+    void digitoVerificadorCero(String rut) {
+        assertEquals("0", ValidadorRut.calcularDigitoVerificador(rut));
+    }
+
     @Test
     void invertirCadena() {
         assertEquals("87654321", ValidadorRut.invertirCadena("12345678"));
@@ -28,21 +51,13 @@ class ValidadorRutTest {
 
     @Test
     void multiplicarDigitosRut() {
-        int[] esperado = {1 * 2, 2 * 3, 3 * 4, 4 * 5, 5 * 6, 6 * 7, 7 * 2, 8 * 3};
+        int[] esperado = {2, 6, 12, 20, 30, 42, 14, 24};
         assertArrayEquals(esperado, ValidadorRut.multiplicarDigitosRut("12345678"));
-    }
-
-    @Test
-    void convertirCharAInt() {
     }
 
     @Test
     void quitarDigitoVerificador() {
         assertEquals("12345678", ValidadorRut.quitarDigitoVerificador("123456785"));
-    }
-
-    @Test
-    void rutNoTieneFormatoValido() {
     }
 
     @Test
