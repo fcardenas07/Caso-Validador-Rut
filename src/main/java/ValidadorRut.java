@@ -3,22 +3,30 @@ import java.util.Scanner;
 
 public class ValidadorRut {
     public static void main(String[] args) {
-        String rut = ingresarTexto();
+        String rut = ingresarRut();
+        validarLargo(rut);
+        mostrarResultadoValidacion(rut);
+    }
 
-        if (rutNoTieneFormatoValido(rut)) {
-            //throw new RuntimeException("Rut con formato no valido");
-            System.err.print("Rut con formato no valido");
+    private static void validarLargo(String rut) {
+        if (rut.isBlank()) {
+            System.err.println("El rut esta vacio");
+            System.exit(0);
         }
+    }
 
-        String digitoVerificadorCalculado = calcularDigitoVerificador(rut);
-        String digitoVerificadorIngresado = extraerDigitoVerificador(rut);
+    private static void mostrarResultadoValidacion(String rut) {
+        System.out.println(resultadoValidacion(rut));
+    }
 
-        if (digitoVerificadorIngresado.equals(digitoVerificadorCalculado)) {
-            System.out.println("Rut Valido");
-        } else {
-            System.out.println("Rut no valido");
-        }
+    private static String resultadoValidacion(String rut) {
+        return "El rut %s valido".formatted(
+                esRutValido(calcularDigitoVerificador(rut), extraerDigitoVerificador(rut)) ? "es" : "no es"
+        );
+    }
 
+    private static boolean esRutValido(String digitoVerificadorCalculado, String digitoVerificadorIngresado) {
+        return digitoVerificadorIngresado.equalsIgnoreCase(digitoVerificadorCalculado);
     }
 
     public static String extraerDigitoVerificador(String rut) {
@@ -85,8 +93,10 @@ public class ValidadorRut {
         try {
             return Integer.parseInt(String.valueOf(digito));
         } catch (NumberFormatException e) {
-            throw new RuntimeException("El rut contiene caracteres no validos");
+            System.err.println("El rut contiene caracteres no validos");
+            System.exit(0);
         }
+        return 0;
     }
 
     public static String invertirCadena(String rut) {
@@ -97,17 +107,12 @@ public class ValidadorRut {
         return rut.substring(0, rut.length() - 1);
     }
 
-    public static boolean rutNoTieneFormatoValido(String rut) {
-        rut = quitarPuntosYGuion(rut);
-        return rut.length() < 8 || rut.length() > 9;
-    }
-
     public static String quitarPuntosYGuion(String rut) {
         return rut.replaceAll("[.-]", "");
     }
 
-
-    public static String ingresarTexto() {
-        return new Scanner(System.in).next();
+    public static String ingresarRut() {
+        System.out.println("Ingrese su RUT:");
+        return new Scanner(System.in).nextLine();
     }
 }
