@@ -54,4 +54,3 @@ public class ValidadorRutGPT {
         return (dv == 11) ? '0' : ((dv == 10) ? 'K' : (char) (dv + '0'));
     }
 }
-
